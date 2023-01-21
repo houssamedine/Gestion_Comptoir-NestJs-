@@ -72,6 +72,7 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 
 Nest is [MIT licensed](LICENSE).
 
+
 # Dependencies
 
 npm i --force @nest-middlewares/helmet @nest-middlewares/morgan @nestjs/config @nestjs/jwt @nestjs/passport @nestjs/swagger @nestjs/typeorm bcrypt class-transformer class-validator mysql2 nestjs-rate-limiter passport-jwt typeorm
@@ -109,4 +110,3 @@ Employes(N° Employe, nom, prenom, fonction, date d'embauche, ville, photo)
 Detail_commande(N° commande, ref_produit, prix_unitaire, quantité, remise(%)
 
 Commandes(N° commande, code_client, N° Employe, date commande, à livrer avant, date_envoi, N° message, Destinataire, adresse Livraison, ville)
-
