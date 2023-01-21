@@ -17,7 +17,7 @@ export class Client extends Generique {
     unique: true,
     length: 20,
   })
-  société: string;
+  societe: string;
 
   @ApiProperty()
   @Column({
