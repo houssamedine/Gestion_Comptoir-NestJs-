@@ -71,3 +71,42 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
+
+# Dependencies
+
+npm i --force @nest-middlewares/helmet @nest-middlewares/morgan @nestjs/config @nestjs/jwt @nestjs/passport @nestjs/swagger @nestjs/typeorm bcrypt class-transformer class-validator mysql2 nestjs-rate-limiter passport-jwt typeorm
+
+# Dev Dependencies
+
+npm i --force -D @types/passport-jwt
+
+# tables (CRUD)
+
+Privates:
+Clients
+Messagers 
+Employes 
+Details_Commandes
+Fournisseurs
+Catégories
+Commandes
+Produits
+
+Details-Tables:
+
+Client(code_client, Société, fonction, adresse, ville, telephone)
+  
+Messagers(N° Messager, nomMessage, telephone)
+
+Catégories(code_categorie, nomCategorie, description)
+
+Fournisseurs(code_fournisseur, société, fonction, adresse, ville, telephone)
+
+Produits(ref_produit, nomProduit, code_Fournisseur, code_categorie, quantite, prix_unitaire, unite_enStock, unitie_commander, indisponible)
+
+Employes(N° Employe, nom, prenom, fonction, date d'embauche, ville, photo)
+
+Detail_commande(N° commande, ref_produit, prix_unitaire, quantité, remise(%)
+
+Commandes(N° commande, code_client, N° Employe, date commande, à livrer avant, date_envoi, N° message, Destinataire, adresse Livraison, ville)
+
