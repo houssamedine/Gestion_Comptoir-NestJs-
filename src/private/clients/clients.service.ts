@@ -4,7 +4,8 @@ import {
   NotFoundException,
 } from '@nestjs/common/exceptions';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DeleteMany } from 'src/communs/generiques/delete_many';
+import { In, Repository } from 'typeorm';
 import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
 import { Client } from './entities/client.entity';
@@ -16,7 +17,16 @@ export class ClientsService {
     private readonly repositoryClient: Repository<Client>,
   ) {}
 
-  //Create One Client
+  //Add Multi Clients
+  async createBulk(createClientDto: CreateClientDto[]): Promise<Client[]> {
+    try {
+      return await this.repositoryClient.save(createClientDto);
+    } catch (error) {
+      throw new NotFoundException();
+    }
+  }
+
+  //Add One Client
   async create(createClientDto: CreateClientDto): Promise<Client> {
     try {
       return await this.repositoryClient.save(createClientDto);
@@ -25,6 +35,7 @@ export class ClientsService {
     }
   }
 
+  //Find All Clients
   async findAll(): Promise<Client[]> {
     try {
       return await this.repositoryClient.find();
@@ -33,6 +44,7 @@ export class ClientsService {
     }
   }
 
+  //Find One Client
   async findOne(id: string): Promise<Client> {
     try {
       return await this.repositoryClient.findOne({ where: { id } });
@@ -41,6 +53,7 @@ export class ClientsService {
     }
   }
 
+  //Update One Client
   async update(id: string, updateClientDto: UpdateClientDto): Promise<Client> {
     try {
       await this.findOne(id);
@@ -52,6 +65,20 @@ export class ClientsService {
     }
   }
 
+  //Delete Multi Clients
+  async removeBulk(deleted: DeleteMany): Promise<boolean> {
+    try {
+      const roleId = await this.repositoryClient.find({
+        where: { id: In(deleted.ids) },
+      });
+      await this.repositoryClient.softRemove(roleId);
+      return roleId.length > 0 ? true : false;
+    } catch (e) {
+      throw new NotFoundException();
+    }
+  }
+
+  //Delete One Client
   async remove(id: string): Promise<boolean> {
     try {
       const roleId = await this.findOne(id);
@@ -61,6 +88,22 @@ export class ClientsService {
       throw new NotFoundException();
     }
   }
+
+  //Recover Multi Client
+  async recoverBulk(deleted: DeleteMany): Promise<Client[]> {
+    try {
+      const roleId = await this.repositoryClient.find({
+        where: { id: In(deleted.ids) },
+        withDeleted: true,
+      });
+      await this.repositoryClient.recover(roleId);
+      return roleId;
+    } catch (e) {
+      throw new NotFoundException();
+    }
+  }
+
+  //Recover One Client
   async recover(id: string): Promise<Client> {
     try {
       const clientId = await this.repositoryClient.findOne({
