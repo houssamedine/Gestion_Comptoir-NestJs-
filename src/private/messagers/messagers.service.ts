@@ -1,26 +1,51 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateMessagerDto } from './dto/create-messager.dto';
 import { UpdateMessagerDto } from './dto/update-messager.dto';
 
 @Injectable()
 export class MessagersService {
+  //Add One Message
   create(createMessagerDto: CreateMessagerDto) {
-    return 'This action adds a new messager';
+    try {
+      return 'This action adds a new messager';
+    } catch (error) {
+      throw new NotFoundException();
+    }
   }
 
+  //Find All Messages
   findAll() {
-    return `This action returns all messagers`;
+    try {
+      return 'This action adds a new messager';
+    } catch (error) {
+      throw new NotFoundException();
+    }
   }
 
+  //Find One Message
   findOne(id: number) {
-    return `This action returns a #${id} messager`;
+    try {
+      return 'This action adds a new messager';
+    } catch (error) {
+      throw new NotFoundException();
+    }
   }
 
+  //Update One Message
   update(id: number, updateMessagerDto: UpdateMessagerDto) {
-    return `This action updates a #${id} messager`;
+    try {
+      return 'This action adds a new messager';
+    } catch (error) {
+      throw new NotFoundException();
+    }
   }
 
+  //Delete One Message
   remove(id: number) {
-    return `This action removes a #${id} messager`;
+    try {
+      return 'This action adds a new messager';
+    } catch (error) {
+      throw new NotFoundException();
+    }
   }
 }
