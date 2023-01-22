@@ -2,6 +2,7 @@ import { Client } from './../../../private/clients/entities/client.entity';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import {Messager} from "../../../private/messagers/entities/messager.entity";
 @Injectable()
 export class DatabaseService {
   constructor(private readonly configService: ConfigService) {}
@@ -21,7 +22,7 @@ export class DatabaseService {
       username,
       password,
       database,
-      entities: [Client],
+      entities: [Client,Messager],
       synchronize: true,
     };
   }
