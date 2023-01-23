@@ -1,26 +1,73 @@
-import { Injectable } from '@nestjs/common';
+import { InternalServerErrorException } from '@nestjs/common/exceptions';
+import { Fournisseur } from './entities/fournisseur.entity';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import { CreateFournisseurDto } from './dto/create-fournisseur.dto';
 import { UpdateFournisseurDto } from './dto/update-fournisseur.dto';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class FournisseursService {
-  create(createFournisseurDto: CreateFournisseurDto) {
-    return 'This action adds a new fournisseur';
+  constructor(
+    @InjectRepository(Fournisseur)
+    private readonly repositoryFournisseur: Repository<Fournisseur>,
+  ) {}
+
+  //Add One Fournisseur
+  async create(
+    createFournisseurDto: CreateFournisseurDto,
+  ): Promise<Fournisseur> {
+    try {
+      return await this.repositoryFournisseur.save(createFournisseurDto);
+    } catch (error) {
+      throw new NotFoundException();
+    }
   }
 
-  findAll() {
-    return `This action returns all fournisseurs`;
+  //Find All Fournisseurs
+  async findAll(): Promise<Fournisseur[]> {
+    try {
+      return await this.repositoryFournisseur.find();
+    } catch (error) {
+      throw new NotFoundException();
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} fournisseur`;
+  //Find One Fournisseur
+  async findOne(id: string): Promise<Fournisseur> {
+    try {
+      return await this.repositoryFournisseur.findOne({ where: { id } });
+    } catch (error) {
+      throw new NotFoundException();
+    }
   }
 
-  update(id: number, updateFournisseurDto: UpdateFournisseurDto) {
-    return `This action updates a #${id} fournisseur`;
+  //Update One Fournisseur
+  async update(
+    id: string,
+    updateFournisseurDto: UpdateFournisseurDto,
+  ): Promise<Fournisseur> {
+    try {
+      await this.findOne(id);
+      const result = await this.repositoryFournisseur.update(
+        id,
+        updateFournisseurDto,
+      );
+      if (result.affected > 0) return this.findOne(id);
+      else throw new InternalServerErrorException();
+    } catch (error) {
+      throw new NotFoundException();
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} fournisseur`;
+  //Delete One Fournisseur
+  async remove(id: string): Promise<boolean> {
+    try {
+      const fournisseurId = await this.findOne(id);
+      await this.repositoryFournisseur.softRemove(fournisseurId);
+      return fournisseurId ? true : false;
+    } catch (error) {
+      throw new NotFoundException();
+    }
   }
 }
