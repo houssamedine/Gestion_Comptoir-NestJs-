@@ -17,7 +17,7 @@ import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
 import { DeleteMany } from 'src/communs/generiques/delete_many';
 
-@ApiTags('clients')
+@ApiTags('client-Api')
 @Controller('clients')
 @UseInterceptors(ClassSerializerInterceptor)
 export class ClientsController {

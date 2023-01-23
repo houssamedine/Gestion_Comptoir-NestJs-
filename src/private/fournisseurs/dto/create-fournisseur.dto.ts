@@ -9,13 +9,11 @@ export class CreateFournisseurDto {
   n_Employe: string;
 
   @ApiProperty()
-  @ApiProperty()
   @IsNotEmpty()
   @MinLength(3, { message: 'Nom:minLenght' })
   @MaxLength(10, { message: 'Nom:maxLenght' })
   nom: string;
 
-  @ApiProperty()
   @ApiProperty()
   @IsNotEmpty()
   @MinLength(3, { message: 'Prénom:minLenght' })
@@ -23,13 +21,11 @@ export class CreateFournisseurDto {
   prenom: string;
 
   @ApiProperty()
-  @ApiProperty()
   @IsNotEmpty()
   @MinLength(3, { message: 'Fonction:minLenght' })
   @MaxLength(10, { message: 'Fonction:maxLenght' })
   fonction: string;
 
-  @ApiProperty()
   @ApiProperty()
   @IsNotEmpty()
   @MinLength(3, { message: 'Date embauche:minLenght' })
@@ -37,13 +33,11 @@ export class CreateFournisseurDto {
   date_embauche: Date;
 
   @ApiProperty()
-  @ApiProperty()
   @IsNotEmpty()
   @MinLength(3, { message: 'Ville:minLenght' })
   @MaxLength(10, { message: 'Ville:maxLenght' })
   ville: string;
 
-  @ApiProperty()
   @ApiProperty()
   @IsNotEmpty()
   photo: string;

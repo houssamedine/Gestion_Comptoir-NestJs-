@@ -7,14 +7,15 @@ import {
   Body,
   Patch,
   Param,
-  Delete, HttpCode,
+  Delete,
+  HttpCode,
 } from '@nestjs/common';
 import { MessagersService } from './messagers.service';
 import { CreateMessagerDto } from './dto/create-messager.dto';
 import { UpdateMessagerDto } from './dto/update-messager.dto';
-import {DeleteMany} from "../../communs/generiques/delete_many";
+import { DeleteMany } from '../../communs/generiques/delete_many';
 
-@ApiTags('Messagers')
+@ApiTags('Messager-Api')
 @Controller('messagers')
 export class MessagersController {
   constructor(private readonly messagersService: MessagersService) {}

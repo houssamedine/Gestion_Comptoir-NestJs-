@@ -25,8 +25,8 @@ import { PublicModule } from './public/public.module';
     //Base Donnée
     TypeOrmModule.forRootAsync({ useClass: DatabaseService }),
 
+    //Les Packages
     PrivateModule,
-
     PublicModule,
   ],
   controllers: [AppController],

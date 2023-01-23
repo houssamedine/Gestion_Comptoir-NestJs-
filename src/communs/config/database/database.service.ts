@@ -1,3 +1,4 @@
+import { Employe } from './../../../private/employes/entities/employe.entity';
 import { Client } from './../../../private/clients/entities/client.entity';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -24,7 +25,7 @@ export class DatabaseService {
       username,
       password,
       database,
-      entities: [Client, Messager, Fournisseur, Category],
+      entities: [Client, Messager, Fournisseur, Category, Employe],
       synchronize: true,
     };
   }
