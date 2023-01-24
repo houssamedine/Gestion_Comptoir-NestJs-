@@ -34,7 +34,7 @@ export class CreateEmployeDto {
 
   @ApiProperty()
   @IsNotEmpty()
-  // @IsDateString()
+  // Convert Le champs Date_embauche de type String --> Date
   @Type(() => Date)
   date_embauche: Date;
 

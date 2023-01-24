@@ -1,4 +1,4 @@
-import { PhotoUpload } from './../../communs/generiques/photo_upload';
+import { DeleteMany } from 'src/communs/generiques/delete_many';
 import {
   Controller,
   Get,
@@ -10,12 +10,12 @@ import {
   UseInterceptors,
   UploadedFile,
   Res,
-  HttpStatus,
+  HttpCode,
 } from '@nestjs/common';
 import { EmployesService } from './employes.service';
 import { CreateEmployeDto } from './dto/create-employe.dto';
 import { UpdateEmployeDto } from './dto/update-employe.dto';
-import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
 @ApiTags('Employes-Api')
 @Controller('employes')
@@ -44,9 +44,26 @@ export class EmployesController {
     return this.employesService.update(id, updateEmployeDto);
   }
 
+  @Delete(':bulk')
+  removeBulk(@Body() deleted: DeleteMany) {
+    return this.employesService.removeBulk(deleted);
+  }
+
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.employesService.remove(id);
+  }
+
+  @Post('recover/bulk')
+  @HttpCode(200)
+  recoverBulk(@Body() deleted: DeleteMany) {
+    return this.employesService.recoverBulk(deleted);
+  }
+
+  @Post('recover')
+  @HttpCode(200)
+  recover(@Param('id') id: string) {
+    return this.employesService.recover(id);
   }
 
   // @Post('upload')
