@@ -1,10 +1,12 @@
+import { Employe } from './../employes/entities/employe.entity';
+import { DeleteMany } from 'src/communs/generiques/delete_many';
 import { InternalServerErrorException } from '@nestjs/common/exceptions';
 import { Fournisseur } from './entities/fournisseur.entity';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, Delete } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateFournisseurDto } from './dto/create-fournisseur.dto';
 import { UpdateFournisseurDto } from './dto/update-fournisseur.dto';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 
 @Injectable()
 export class FournisseursService {
@@ -12,6 +14,17 @@ export class FournisseursService {
     @InjectRepository(Fournisseur)
     private readonly repositoryFournisseur: Repository<Fournisseur>,
   ) {}
+
+  //Add Multi Fournisseurs
+  async createBulk(
+    createFournisseurDto: CreateFournisseurDto[],
+  ): Promise<Fournisseur[]> {
+    try {
+      return await this.repositoryFournisseur.save(createFournisseurDto);
+    } catch (error) {
+      throw new NotFoundException();
+    }
+  }
 
   //Add One Fournisseur
   async create(
@@ -60,12 +73,54 @@ export class FournisseursService {
     }
   }
 
+  //Delete Multi Fournisseurs
+  async removeBulk(deleted: DeleteMany): Promise<boolean> {
+    try {
+      const fournisseurId = await this.repositoryFournisseur.find({
+        where: { id: In(deleted.ids) },
+        withDeleted: true,
+      });
+      await this.repositoryFournisseur.softRemove(fournisseurId);
+      return fournisseurId ? true : false;
+    } catch (error) {
+      throw new NotFoundException();
+    }
+  }
+
   //Delete One Fournisseur
   async remove(id: string): Promise<boolean> {
     try {
       const fournisseurId = await this.findOne(id);
       await this.repositoryFournisseur.softRemove(fournisseurId);
       return fournisseurId ? true : false;
+    } catch (error) {
+      throw new NotFoundException();
+    }
+  }
+
+  //Recover One Fournisseur
+  async recoverBulk(deleted: DeleteMany): Promise<Fournisseur[]> {
+    try {
+      const fournisseurId = await this.repositoryFournisseur.find({
+        where: { id: In(deleted.ids) },
+        withDeleted: true,
+      });
+      await this.repositoryFournisseur.recover(fournisseurId);
+      return fournisseurId;
+    } catch (error) {
+      throw new NotFoundException();
+    }
+  }
+
+  //Recover One Fournisseur
+  async recover(id: string): Promise<Fournisseur> {
+    try {
+      const fournisseurId = await this.repositoryFournisseur.findOne({
+        where: { id },
+        withDeleted: true,
+      });
+      await this.repositoryFournisseur.recover(fournisseurId);
+      return fournisseurId;
     } catch (error) {
       throw new NotFoundException();
     }
