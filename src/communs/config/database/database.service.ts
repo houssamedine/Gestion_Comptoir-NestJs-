@@ -1,8 +1,11 @@
+import { Employe } from './../../../private/employes/entities/employe.entity';
 import { Client } from './../../../private/clients/entities/client.entity';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import {Messager} from "../../../private/messagers/entities/messager.entity";
+import { Messager } from '../../../private/messagers/entities/messager.entity';
+import { Fournisseur } from 'src/private/fournisseurs/entities/fournisseur.entity';
+import { Category } from 'src/private/categories/entities/category.entity';
 @Injectable()
 export class DatabaseService {
   constructor(private readonly configService: ConfigService) {}
@@ -22,7 +25,7 @@ export class DatabaseService {
       username,
       password,
       database,
-      entities: [Client,Messager],
+      entities: [Client, Messager, Fournisseur, Category, Employe],
       synchronize: true,
     };
   }

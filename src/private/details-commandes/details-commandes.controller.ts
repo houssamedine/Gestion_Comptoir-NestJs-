@@ -1,11 +1,22 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { DetailsCommandesService } from './details-commandes.service';
 import { CreateDetailsCommandeDto } from './dto/create-details-commande.dto';
 import { UpdateDetailsCommandeDto } from './dto/update-details-commande.dto';
-
+@ApiTags('Deatil_Commande')
 @Controller('details-commandes')
 export class DetailsCommandesController {
-  constructor(private readonly detailsCommandesService: DetailsCommandesService) {}
+  constructor(
+    private readonly detailsCommandesService: DetailsCommandesService,
+  ) {}
 
   @Post()
   create(@Body() createDetailsCommandeDto: CreateDetailsCommandeDto) {
@@ -23,7 +34,10 @@ export class DetailsCommandesController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDetailsCommandeDto: UpdateDetailsCommandeDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateDetailsCommandeDto: UpdateDetailsCommandeDto,
+  ) {
     return this.detailsCommandesService.update(+id, updateDetailsCommandeDto);
   }
 
