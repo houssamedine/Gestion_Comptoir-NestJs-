@@ -1,6 +1,8 @@
-import { Generique } from './../../../communs/generiques/generique';
+import { Media } from '../../medias/entities/media.entity';
+import { Generique } from '../../../communs/generiques/generique';
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
+import { Transform } from 'class-transformer';
 
 @Entity({
   name: 'employes',
@@ -31,7 +33,8 @@ export class Employe extends Generique {
   fonction: string;
 
   @ApiProperty()
-  @Column({})
+  @Transform(() => new Date())
+  @Column()
   date_embauche: Date;
 
   @ApiProperty()
@@ -40,11 +43,9 @@ export class Employe extends Generique {
   })
   ville: string;
 
-  @ApiProperty()
-  @Column({})
-  photo: string;
-
-  @ApiProperty()
-  @Column({})
-  namephoto: string;
+  @ApiProperty({ type: () => Media })
+  @OneToMany(() => Media, (media) => media.employe, {
+    cascade: ['insert'],
+  })
+  medias: Media[];
 }

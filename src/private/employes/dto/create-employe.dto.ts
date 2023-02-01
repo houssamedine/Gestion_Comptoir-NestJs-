@@ -1,16 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
-import {
-  IsDate,
-  IsDateString,
-  IsNotEmpty,
-  MaxLength,
-  MinLength,
-} from 'class-validator';
+import { Transform } from 'class-transformer';
+import { IsNotEmpty, IsOptional, MaxLength, MinLength } from 'class-validator';
+import { Media } from 'src/private/medias/entities/media.entity';
 export class CreateEmployeDto {
   @ApiProperty()
   @IsNotEmpty()
-  @MinLength(3, { message: 'Numéro Employe:minLenght' })
+  @MinLength(1, { message: 'Numéro Employe:minLenght' })
   @MaxLength(10, { message: 'Numéro Employe:maxLenght' })
   n_Employe: string;
 
@@ -34,8 +29,7 @@ export class CreateEmployeDto {
 
   @ApiProperty()
   @IsNotEmpty()
-  // Convert Le champs Date_embauche de type String --> Date
-  @Type(() => Date)
+  @Transform(() => new Date())
   date_embauche: Date;
 
   @ApiProperty()
