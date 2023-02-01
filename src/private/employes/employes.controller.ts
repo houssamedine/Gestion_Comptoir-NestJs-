@@ -12,16 +12,28 @@ import {
   UploadedFile,
   Res,
   HttpCode,
+  UploadedFiles,
 } from '@nestjs/common';
 import { EmployesService } from './employes.service';
 import { CreateEmployeDto } from './dto/create-employe.dto';
 import { UpdateEmployeDto } from './dto/update-employe.dto';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
+
 @ApiTags('Employes-Api')
 @Controller('employes')
 export class EmployesController {
   constructor(private readonly employesService: EmployesService) {}
+
+  @Post('upload')
+  @UseInterceptors(FilesInterceptor('files'))
+  createBulk(
+    @Body() createEmployeDto: CreateEmployeDto,
+    @UploadedFiles() files: Array<Express.Multer.File>,
+  ) {
+    console.log({ createEmployeDto, files });
+    return this.employesService.createBulk(createEmployeDto, files);
+  }
 
   //Add One Employée
   @Post()

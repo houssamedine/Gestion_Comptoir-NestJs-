@@ -14,39 +14,42 @@ export class EmployesService {
     private readonly repositoryEmploye: Repository<Employe>,
   ) {}
 
-  // async createBulk(
-  //   createEmployeDto: CreateEmployeDto[],
-  //   file: Express.Multer.File,
-  // ): Promise<Employe> {
-  //   try {
-  //     const { originalname: namephoto, filename: photo } = file;
-  //     return await this.repositoryEmploye.save({
-  //       ...createEmployeDto,
-  //       // date_embauche: new Date(createEmployeDto.date_embauche),
-  //       photo,
-  //       namephoto,
-  //     });
-  //   } catch (error) {
-  //     console.log({ error });
-  //     throw new NotFoundException();
-  //   }
-  // }
+  //Add and Upload Multi Image
+  createBulk(
+    createEmployeDto: CreateEmployeDto,
+    files: Array<Express.Multer.File>,
+  ): Promise<Employe> {
+    try {
+      const medias = files.map(
+        ({ originalname: namephoto, filename: photo }) => ({
+          namephoto,
+          photo,
+        }),
+      );
+
+      return this.repositoryEmploye.save({
+        ...createEmployeDto,
+        medias,
+      });
+    } catch (error) {
+      throw new NotFoundException();
+    }
+  }
 
   //Add One Employée
-  async create(
+  create(
     createEmployeDto: CreateEmployeDto,
     file: Express.Multer.File,
   ): Promise<Employe> {
     try {
       const { originalname: namephoto, filename: photo } = file;
-      return await this.repositoryEmploye.save({
+      return this.repositoryEmploye.save({
         ...createEmployeDto,
-        // date_embauche: new Date(createEmployeDto.date_embauche),
+        //date_embauche: new Date(createEmployeDto.date_embauche),
         photo,
         namephoto,
       });
     } catch (error) {
-      console.log({ error });
       throw new NotFoundException();
     }
   }

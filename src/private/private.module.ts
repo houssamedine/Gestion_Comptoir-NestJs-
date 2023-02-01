@@ -5,8 +5,9 @@ import { CommandesModule } from './commandes/commandes.module';
 import { FournisseursModule } from './fournisseurs/fournisseurs.module';
 import { CategoriesModule } from './categories/categories.module';
 import { ProduitsModule } from './produits/produits.module';
-import { EmployesModule } from './employes/employes.module';
 import { DetailsCommandesModule } from './details-commandes/details-commandes.module';
+import { MediasModule } from './medias/medias.module';
+import { EmployesModule } from './employes/employes.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { DetailsCommandesModule } from './details-commandes/details-commandes.mo
     ProduitsModule,
     EmployesModule,
     DetailsCommandesModule,
+    MediasModule,
   ],
 })
 export class PrivateModule {}
